@@ -5,6 +5,7 @@ namespace Technikermathe\Keycloak\Data;
 use Spatie\LaravelData\Attributes\Computed;
 use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Data;
+use stdClass;
 
 class AccessToken extends Data
 {
@@ -25,8 +26,8 @@ class AccessToken extends Data
         public string $acr,
         #[MapInputName('allowed-origins')]
         public array $allowed_origins,
-        public array $realm_access,
-        public array $resource_access,
+        public stdClass $realm_access,
+        public stdClass $resource_access,
         public string $scope,
         public string $sid,
         public bool $email_verified,
@@ -36,7 +37,7 @@ class AccessToken extends Data
         public string $family_name,
         public string $email
     ) {
-        $this->roles = $this->realm_access['roles'] ?? [];
+        $this->roles = $this->realm_access->roles ?? [];
     }
 
     public function hasRole(string $role): bool

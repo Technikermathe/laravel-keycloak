@@ -49,10 +49,6 @@ class Token extends Data
         if ($token->iss !== Keycloak::getIssuer()) {
             throw new InvalidIssuerException();
         }
-
-        if ($token->aud !== config('keycloak.clientId')) {
-            throw new InvalidAudienceException();
-        }
     }
 
     private function decodeToken(string $token): stdClass

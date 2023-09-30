@@ -5,7 +5,15 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/technikermathe/laravel-keycloak/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/technikermathe/laravel-keycloak/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/technikermathe/laravel-keycloak.svg?style=flat-square)](https://packagist.org/packages/technikermathe/laravel-keycloak)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+Very opinionated Keycloak Auth Guard implementation for Laravel.
+
+## Key differences
+
+- Meant for latest Keycloak and respective endpoints (22.x)
+- Fixes various security flaws with other OIDC and JWT implementations
+- JWT validation based on firebase/jwt
+- Issuer and Audience Validation
+- Data Normalization with DTOs
 
 ## Installation
 
@@ -32,18 +40,22 @@ This is the contents of the published config file:
 
 ```php
 return [
+    'url' => env('KEYCLOAK_URL', 'https://keycloak.example.org'),
+    'realm' => env('KEYCLOAK_REALM', 'keycloak'),
+    'clientId' => env('KEYCLOAK_CLIENT_ID', 'https://app.example.org/auth/oidc'),
+    'clientSecret' => env('KEYCLOAK_CLIENT_SECRET'),
+    'model' => 'App\\Models\\User',
 ];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="laravel-keycloak-views"
 ```
 
 ## Usage
 
 ```php
+// Routes
+route('login')
+route('register')
+route('callback')
+route('logout')
 ```
 
 ## Testing

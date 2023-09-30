@@ -56,7 +56,7 @@ class AuthController extends Controller
         $token = Keycloak::getToken();
 
         if (Auth::validate($token->toArray())) {
-            return redirect()->intended();
+            return redirect()->intended(config('keycloak.redirect_url', '/admin'));
         }
 
         return to_route('login');

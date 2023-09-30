@@ -10,7 +10,6 @@ use Technikermathe\Keycloak\Data\Token;
 
 class KeycloakPersistentUserProvider implements UserProvider
 {
-
     public function __construct(protected string $model)
     {
     }
@@ -40,7 +39,7 @@ class KeycloakPersistentUserProvider implements UserProvider
         /** @var Model $class */
         $class = '\\'.ltrim($this->model, '\\');
 
-        DB::transaction(function() use ($idToken, $class) {
+        DB::transaction(function () use ($idToken, $class) {
             $class->newQuery()->updateOrInsert([
                 'id' => $idToken->sub,
             ], [

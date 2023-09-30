@@ -52,7 +52,7 @@ class KeycloakServiceProvider extends PackageServiceProvider
             );
         });
 
-        Auth::provider('keycloak-persistent-users', function($app, array $config) {
+        Auth::provider('keycloak-persistent-users', function ($app, array $config) {
             return new KeycloakPersistentUserProvider($config['model']);
         });
 

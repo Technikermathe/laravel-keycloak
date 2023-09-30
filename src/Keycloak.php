@@ -26,6 +26,7 @@ class Keycloak
         private readonly PendingRequest $http,
         private readonly string $baseUrl,
     ) {
+        $this->state = Str::random(64);
     }
 
     public function getIssuer(): string
@@ -246,7 +247,6 @@ class Keycloak
      */
     public function saveState(): void
     {
-        $this->state = Str::random(64);
         Session::put(self::STATE, $this->state);
         Session::save();
     }

@@ -23,10 +23,8 @@ class KeycloakGuard implements Guard
     /**
      * Constructor.
      */
-    public function __construct(UserProvider $provider, Request $request)
+    public function __construct(protected UserProvider $provider, protected Request $request)
     {
-        $this->provider = $provider;
-        $this->request = $request;
     }
 
     /**

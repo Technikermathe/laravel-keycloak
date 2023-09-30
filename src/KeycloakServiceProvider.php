@@ -11,6 +11,7 @@ use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Technikermathe\Keycloak\Auth\Guard\KeycloakGuard;
+use Technikermathe\Keycloak\Auth\KeycloakPersistentUserProvider;
 
 class KeycloakServiceProvider extends PackageServiceProvider
 {
@@ -49,6 +50,10 @@ class KeycloakServiceProvider extends PackageServiceProvider
                 http: Http::baseUrl($baseUrl)->throw(),
                 baseUrl: $baseUrl->__toString()
             );
+        });
+
+        Auth::provider('keycloak-persistent-users', function($app, array $config) {
+            return new KeycloakPersistentUserProvider($config['model']);
         });
 
         Auth::extend('keycloak', function ($app, $name, array $config) {

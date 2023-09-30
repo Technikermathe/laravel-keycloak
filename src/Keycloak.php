@@ -144,7 +144,7 @@ class Keycloak
             'grant_type' => 'authorization_code',
             'client_id' => config('keycloak.clientId'),
             'client_secret' => config('keycloak.clientSecret'),
-            'redirect_uri' => route('keycloak.callback'),
+            'redirect_uri' => route('callback'),
             'code' => $validated['code'],
             'state' => $this->state,
         ];
@@ -163,7 +163,7 @@ class Keycloak
             'grant_type' => 'refresh_token',
             'client_id' => config('keycloak.clientId'),
             'client_secret' => config('keycloak.clientSecret'),
-            'redirect_uri' => route('keycloak.callback'),
+            'redirect_uri' => route('callback'),
             'refresh_token' => $token->refresh_token,
         ];
 

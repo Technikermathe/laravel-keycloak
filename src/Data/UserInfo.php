@@ -19,5 +19,4 @@ class UserInfo extends Data
         public string $email,
     ) {
     }
-
 }

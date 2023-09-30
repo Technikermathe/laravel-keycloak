@@ -2,8 +2,6 @@
 
 namespace Technikermathe\Keycloak\Data;
 
-use DateTime;
-use Illuminate\Support\Collection;
 use Spatie\LaravelData\Attributes\Computed;
 use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Data;
@@ -45,5 +43,4 @@ class AccessToken extends Data
     {
         return in_array($role, $this->roles, true);
     }
-
 }

@@ -16,7 +16,7 @@ class KeycloakUserProvider
     /**
      * The Constructor
      *
-     * @param string $model
+     * @param  string  $model
      */
     public function __construct($model)
     {
@@ -26,7 +26,6 @@ class KeycloakUserProvider
     /**
      * Retrieve a user by the given credentials.
      *
-     * @param  array  $credentials
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByCredentials(array $credentials)
@@ -75,7 +74,6 @@ class KeycloakUserProvider
      * Validate a user against the given credentials.
      *
      * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
-     * @param  array  $credentials
      * @return bool
      */
     public function validateCredentials(Authenticatable $user, array $credentials)

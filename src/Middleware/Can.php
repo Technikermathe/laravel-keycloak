@@ -13,7 +13,6 @@ class Can extends Authenticated
             return $next($request);
         }
 
-
         $guards = explode('|', ($guards[0] ?? ''));
         if (Auth::hasRole($guards)) {
             return $next($request);

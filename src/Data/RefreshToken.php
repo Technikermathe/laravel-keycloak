@@ -18,7 +18,6 @@ class RefreshToken extends Data
         public string $session_state,
         public string $scope,
         public string $sid
-    )
-    {}
-
+    ) {
+    }
 }

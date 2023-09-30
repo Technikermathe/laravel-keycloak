@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class User implements Authenticatable
 {
-
     public function getAuthIdentifierName()
     {
         return 'email';
@@ -46,11 +45,10 @@ class User implements Authenticatable
      *
      * @param  string|array  $roles
      * @param  string  $resource
-     * @return boolean
+     * @return bool
      */
     public function hasRole($roles, $resource = '')
     {
         return Auth::hasRole($roles, $resource);
     }
-
 }

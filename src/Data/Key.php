@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Technikermathe\Keycloak\Data;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Data;
 

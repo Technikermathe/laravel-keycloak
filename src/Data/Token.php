@@ -5,29 +5,28 @@ declare(strict_types=1);
 namespace Technikermathe\Keycloak\Data;
 
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Data;
 use stdClass;
 use Technikermathe\Keycloak\Exceptions\InvalidAudienceException;
 use Technikermathe\Keycloak\Exceptions\InvalidIssuerException;
 use Technikermathe\Keycloak\Facades\Keycloak;
-use Firebase\JWT\Key;
 
 class Token extends Data
 {
     public function __construct(
         public string $access_token,
-        public int    $expires_in,
-        public int    $refresh_expires_in,
+        public int $expires_in,
+        public int $refresh_expires_in,
         public string $refresh_token,
         public string $token_type,
         public string $id_token,
         #[MapInputName('not-before-policy')]
-        public int    $not_before_policy,
+        public int $not_before_policy,
         public string $session_state,
         public string $scope,
-    )
-    {
+    ) {
     }
 
     public function getAccessToken(): AccessToken

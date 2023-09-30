@@ -2,14 +2,14 @@
 
 namespace Technikermathe\Keycloak\Auth\Guard;
 
-use Illuminate\Support\Facades\Log;
-use Technikermathe\Keycloak\Data\Token;
-use Technikermathe\Keycloak\Facades\Keycloak;
 use BadMethodCallException;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Technikermathe\Keycloak\Data\Token;
+use Technikermathe\Keycloak\Facades\Keycloak;
 use Technikermathe\Keycloak\Models\User;
 use Throwable;
 
@@ -22,8 +22,6 @@ class KeycloakGuard implements Guard
 
     /**
      * Constructor.
-     *
-     * @param Request $request
      */
     public function __construct(UserProvider $provider, Request $request)
     {
@@ -73,7 +71,6 @@ class KeycloakGuard implements Guard
     /**
      * Set the current user.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
      * @return void
      */
     public function setUser(?Authenticatable $user)
@@ -89,6 +86,7 @@ class KeycloakGuard implements Guard
     public function id()
     {
         $user = $this->user();
+
         return $user->id ?? null;
     }
 
@@ -100,19 +98,18 @@ class KeycloakGuard implements Guard
     /**
      * Validate a user's credentials.
      *
-     * @param  array  $credentials
      *
      * @throws BadMethodCallException
-     *
-     * @return bool
      */
     public function validate(array $credentials = []): bool
     {
         try {
             Keycloak::saveToken(Token::from($credentials));
+
             return $this->authenticate();
         } catch (Throwable $e) {
             Log::error($e);
+
             return false;
         }
     }
@@ -147,8 +144,6 @@ class KeycloakGuard implements Guard
 
     /**
      * Check user is authenticated and return his resource roles
-     *
-     * @return array
      */
     public function roles(): array
     {

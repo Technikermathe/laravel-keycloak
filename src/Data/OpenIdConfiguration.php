@@ -36,5 +36,4 @@ class OpenIdConfiguration extends Data
         public bool $backchannel_logout_supported,
     ) {
     }
-
 }

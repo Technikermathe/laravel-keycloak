@@ -13,7 +13,7 @@ class UriCast implements Cast
 {
     public function cast(DataProperty $property, mixed $value, array $context): UriInterface|Uncastable
     {
-        if (!is_string($value)) {
+        if (! is_string($value)) {
             return Uncastable::create();
         }
 

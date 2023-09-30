@@ -13,8 +13,6 @@ class Certs extends Data
     public function __construct(
         #[DataCollectionOf(Key::class)]
         public DataCollection $keys
-    )
-    {
+    ) {
     }
-
 }

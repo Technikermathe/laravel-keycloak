@@ -9,7 +9,6 @@ use Psr\Http\Message\UriFactoryInterface;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Technikermathe\Keycloak\Commands\KeycloakCommand;
 
 class KeycloakServiceProvider extends PackageServiceProvider
 {
@@ -25,7 +24,7 @@ class KeycloakServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasRoute('web')
             ->hasMigration('create_users_table')
-            ->hasInstallCommand(function(InstallCommand $command) {
+            ->hasInstallCommand(function (InstallCommand $command) {
                 $command
                     ->publishConfigFile()
                     ->publishMigrations();
@@ -42,7 +41,7 @@ class KeycloakServiceProvider extends PackageServiceProvider
         $this->app->bind(UriFactoryInterface::class, HttpFactory::class);
         $this->app->bind(Keycloak::class, function (Application $app) {
             $baseUrl = $app->get(UriFactoryInterface::class)
-                ->createUri(config('keycloak.url') . '/realms/' . config('keycloak.realm'));
+                ->createUri(config('keycloak.url').'/realms/'.config('keycloak.realm'));
 
             return new Keycloak(
                 http: Http::baseUrl($baseUrl)->throw(),

@@ -11,5 +11,4 @@ class Authenticated extends Authenticate
     {
         return route('login');
     }
-
 }

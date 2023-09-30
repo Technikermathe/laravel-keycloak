@@ -4,7 +4,6 @@ namespace Technikermathe\Keycloak;
 
 use Firebase\JWT\ExpiredException;
 use Illuminate\Http\Client\PendingRequest;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -26,8 +25,7 @@ class Keycloak
     public function __construct(
         private readonly PendingRequest $http,
         private readonly string $baseUrl,
-    )
-    {
+    ) {
     }
 
     public function getIssuer(): string
@@ -48,7 +46,7 @@ class Keycloak
             $openIdConfiguration = $this->getOpenIdConfiguration();
 
             return Certs::from(
-                $this->http->get((string)$openIdConfiguration->jwks_uri)->json()
+                $this->http->get((string) $openIdConfiguration->jwks_uri)->json()
             );
         });
     }
@@ -58,7 +56,7 @@ class Keycloak
         return Cache::rememberForever('public_key', function () {
             $openIdConfiguration = $this->getOpenIdConfiguration();
 
-            $unformatted = $this->http->get((string)$openIdConfiguration->issuer)->json('public_key');
+            $unformatted = $this->http->get((string) $openIdConfiguration->issuer)->json('public_key');
             $wrappedPublicKey = trim(chunk_split($unformatted, 64));
 
             return <<<EOD
@@ -136,12 +134,12 @@ class Keycloak
     public function getToken(): Token
     {
         $validated = request()->validate([
-            'code' => 'required'
+            'code' => 'required',
         ]);
 
         $openIdConfiguration = $this->getOpenIdConfiguration();
 
-        $endpoint = (string)$openIdConfiguration->token_endpoint;
+        $endpoint = (string) $openIdConfiguration->token_endpoint;
         $body = [
             'grant_type' => 'authorization_code',
             'client_id' => config('keycloak.clientId'),
@@ -160,7 +158,7 @@ class Keycloak
     {
         $openIdConfiguration = $this->getOpenIdConfiguration();
 
-        $endpoint = (string)$openIdConfiguration->token_endpoint;
+        $endpoint = (string) $openIdConfiguration->token_endpoint;
         $body = [
             'grant_type' => 'refresh_token',
             'client_id' => config('keycloak.clientId'),
@@ -226,8 +224,6 @@ class Keycloak
 
     /**
      * Remove Token from Session
-     *
-     * @return void
      */
     public function forgetToken(): void
     {
@@ -247,8 +243,6 @@ class Keycloak
 
     /**
      * Save State to Session
-     *
-     * @return void
      */
     public function saveState(): void
     {
@@ -259,8 +253,6 @@ class Keycloak
 
     /**
      * Remove State from Session
-     *
-     * @return void
      */
     public function forgetState(): void
     {

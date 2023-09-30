@@ -53,6 +53,7 @@ class KeycloakServiceProvider extends PackageServiceProvider
 
         Auth::extend('keycloak', function ($app, $name, array $config) {
             $provider = Auth::createUserProvider($config['provider']);
+
             return new KeycloakGuard($provider, $app->request);
         });
 

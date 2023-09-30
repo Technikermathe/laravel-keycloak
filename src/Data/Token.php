@@ -9,7 +9,6 @@ use Firebase\JWT\Key;
 use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Data;
 use stdClass;
-use Technikermathe\Keycloak\Exceptions\InvalidAudienceException;
 use Technikermathe\Keycloak\Exceptions\InvalidIssuerException;
 use Technikermathe\Keycloak\Facades\Keycloak;
 

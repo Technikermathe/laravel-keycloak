@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Technikermathe\Keycloak\Data\Token;
+use Technikermathe\Keycloak\Data\UserInfo;
 
 class KeycloakPersistentUserProvider implements UserProvider
 {
@@ -34,23 +34,23 @@ class KeycloakPersistentUserProvider implements UserProvider
 
     public function retrieveByCredentials(array $credentials)
     {
-        $idToken = Token::from($credentials)->getIdToken();
+        $userInfo = UserInfo::from($credentials);
 
         /** @var Model $class */
         $class = '\\'.ltrim($this->model, '\\');
 
-        DB::transaction(function () use ($idToken, $class) {
+        DB::transaction(function () use ($userInfo, $class) {
             $class->newQuery()->updateOrInsert([
-                'id' => $idToken->sub,
+                'id' => $userInfo->sub,
             ], [
-                'name' => $idToken->name,
-                'email' => $idToken->email,
-                'givenName' => $idToken->given_name,
-                'familyName' => $idToken->family_name,
+                'name' => $userInfo->name,
+                'email' => $userInfo->email,
+                'givenName' => $userInfo->given_name,
+                'familyName' => $userInfo->family_name,
             ]);
         });
 
-        return $class->newQuery()->find($idToken->sub);
+        return $class->newQuery()->find($userInfo->sub);
     }
 
     public function validateCredentials(Authenticatable $user, array $credentials)

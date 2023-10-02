@@ -30,6 +30,8 @@ class AuthController extends Controller
 
     public function register(): RedirectResponse
     {
+        Keycloak::saveState();
+
         $url = Keycloak::getRegistrationUrl();
 
         return redirect($url);

@@ -28,9 +28,7 @@ class KeycloakPersistentUserProvider implements UserProvider
     }
 
     /**
-     * @param array $credentials
      * @return Authenticatable|null
-     *
      */
     public function retrieveByCredentials(array $credentials)
     {

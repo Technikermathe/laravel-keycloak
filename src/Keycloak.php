@@ -120,7 +120,7 @@ class Keycloak
             ->withQuery($query)
             ->__toString();
 
-        return Str::replaceEnd(
+        return Str::replaceLast(
             '/auth',
             '/registrations',
             $authUrl
@@ -191,7 +191,11 @@ class Keycloak
             try {
                 $token->getRefreshToken();
 
-                return $this->refreshAccessToken($token);
+                $token = $this->refreshAccessToken($token);
+
+                $this->saveToken($token);
+
+                return $token;
 
             } catch (ExpiredException) {
                 $this->forgetToken();

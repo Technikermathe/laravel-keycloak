@@ -23,6 +23,7 @@ class AuthController extends Controller
         $url = Keycloak::getLogoutUrl();
 
         Keycloak::forgetToken();
+        Keycloak::forgetState();
 
         return redirect($url);
     }
@@ -59,6 +60,6 @@ class AuthController extends Controller
             return redirect()->intended(config('keycloak.redirect_url', '/admin'));
         }
 
-        return to_route('login');
+        throw new RuntimeException('Undefined State');
     }
 }

@@ -57,14 +57,9 @@ class Keycloak
         return Cache::rememberForever('public_key', function () {
             $openIdConfiguration = $this->getOpenIdConfiguration();
 
-            $unformatted = $this->http->get((string) $openIdConfiguration->issuer)->json('public_key');
-            $wrappedPublicKey = trim(chunk_split($unformatted, 64));
+            $key = $this->http->get((string) $openIdConfiguration->issuer)->json('public_key');
 
-            return <<<EOD
-            -----BEGIN PUBLIC KEY-----
-            $wrappedPublicKey
-            -----END PUBLIC KEY-----
-            EOD;
+            return "-----BEGIN PUBLIC KEY-----\n".wordwrap($key, 64, "\n", true)."\n-----END PUBLIC KEY-----";
         });
     }
 
@@ -126,8 +121,8 @@ class Keycloak
             ->__toString();
 
         return Str::replaceEnd(
-            'openid-connect/auth',
-            'openid-connect/registrations',
+            '/auth',
+            '/registrations',
             $authUrl
         );
     }

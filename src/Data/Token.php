@@ -52,9 +52,7 @@ class Token extends Data
 
     private function decodeToken(string $token): stdClass
     {
-        $header = JWT::jsonDecode(JWT::urlsafeB64Decode(explode('.', $token)[0]));
-
-        $object = JWT::decode($token, new Key(Keycloak::getPublicKey(), $header->alg));
+        $object = JWT::decode($token, new Key(Keycloak::getPublicKey(), 'RS256'));
 
         $this->ensureIntegrity($object);
 

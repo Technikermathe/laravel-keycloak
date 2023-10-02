@@ -3,6 +3,7 @@
 namespace Technikermathe\Keycloak\Auth\Guard;
 
 use BadMethodCallException;
+use Firebase\JWT\ExpiredException;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\UserProvider;
@@ -117,23 +118,19 @@ class KeycloakGuard implements Guard
      */
     public function authenticate(): bool
     {
-        // Get Credentials
+        /** @var Token $credentials */
         $credentials = Keycloak::retrieveToken();
 
-        if (empty($credentials)) {
+        if (!$credentials instanceof Token) {
             return false;
         }
 
-        $user = Keycloak::getUserInfo($credentials);
+        Keycloak::refreshTokenIfNeeded($credentials);
 
-        if (empty($user)) {
-            Keycloak::forgetToken();
-
-            return false;
-        }
+        $idToken = $credentials->getIdToken();
 
         // Provide User
-        $user = $this->provider->retrieveByCredentials($user->toArray());
+        $user = $this->provider->retrieveByCredentials($idToken->toArray());
 
         $this->setUser($user);
 
@@ -150,6 +147,8 @@ class KeycloakGuard implements Guard
         }
 
         $token = Keycloak::retrieveToken();
+
+        $token = Keycloak::refreshTokenIfNeeded($token);
 
         if (blank($token)) {
             return [];
@@ -168,6 +167,8 @@ class KeycloakGuard implements Guard
         }
 
         $token = Keycloak::retrieveToken();
+
+        $token = Keycloak::refreshTokenIfNeeded($token);
 
         if (blank($token)) {
             return false;

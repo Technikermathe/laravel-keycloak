@@ -124,7 +124,7 @@ class KeycloakGuard implements Guard
             return false;
         }
 
-        Keycloak::refreshTokenIfNeeded($credentials);
+        $credentials = Keycloak::refreshTokenIfNeeded($credentials);
 
         $idToken = $credentials->getIdToken();
 

@@ -74,7 +74,7 @@ class Keycloak
             'response_type' => 'code',
             'client_id' => config('keycloak.clientId'),
             'redirect_uri' => $redirectUri,
-            'scope' => 'openid roles email profile',
+            'scope' => config('keycloak.scope'),
             'state' => $this->state,
         ]);
 
@@ -112,7 +112,7 @@ class Keycloak
             'response_type' => 'code',
             'client_id' => config('keycloak.clientId'),
             'redirect_uri' => $redirectUri,
-            'scope' => 'openid roles email profile',
+            'scope' => config('keycloak.scope'),
             'state' => $this->state,
         ]);
 

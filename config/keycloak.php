@@ -8,4 +8,5 @@ return [
     'model' => 'App\\Models\\User',
     'routeMiddleware' => 'web',
     'redirect_url' => '/kurse',
+    'scope' => 'openid roles email profile',
 ];

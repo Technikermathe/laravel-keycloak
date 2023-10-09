@@ -39,13 +39,19 @@ php artisan vendor:publish --tag="laravel-keycloak-config"
 This is the contents of the published config file:
 
 ```php
+<?php
+
 return [
     'url' => env('KEYCLOAK_URL', 'https://keycloak.example.org'),
     'realm' => env('KEYCLOAK_REALM', 'keycloak'),
     'clientId' => env('KEYCLOAK_CLIENT_ID', 'https://app.example.org/auth/oidc'),
     'clientSecret' => env('KEYCLOAK_CLIENT_SECRET'),
     'model' => 'App\\Models\\User',
+    'routeMiddleware' => 'web',
+    'redirect_url' => '/kurse',
+    'scope' => 'openid roles email profile',
 ];
+
 ```
 
 ## Usage
@@ -54,9 +60,13 @@ return [
 // Routes
 route('login')
 route('register')
-route('callback')
 route('logout')
+
+// Middleware
+middleware(['auth']) # Require authentication
+middleware(['can:admin']) # Check for resource role "admin"
 ```
+
 
 ## Testing
 

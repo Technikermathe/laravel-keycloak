@@ -11,6 +11,7 @@ use Technikermathe\Keycloak\Data\Certs;
 use Technikermathe\Keycloak\Data\OpenIdConfiguration;
 use Technikermathe\Keycloak\Data\Token;
 use Technikermathe\Keycloak\Data\UserInfo;
+use Throwable;
 
 class Keycloak
 {
@@ -185,24 +186,21 @@ class Keycloak
     {
         try {
             $token->getAccessToken();
-
-            return $token;
         } catch (ExpiredException) {
-            try {
-                $token->getRefreshToken();
-
-                $token = $this->refreshAccessToken($token);
-
-                $this->saveToken($token);
-
-                return $token;
-
-            } catch (ExpiredException) {
-                $this->forgetToken();
-                $this->forgetState();
-                abort(to_route('login'));
-            }
+            $token = $this->refreshAccessToken($token);
+            $this->saveToken($token);
+        } catch (Throwable) {
+            $this->handleThrowable();
         }
+
+        return $token;
+    }
+
+    private function handleThrowable(): never
+    {
+        $this->forgetToken();
+        $this->forgetState();
+        abort(to_route('login'));
     }
 
     /**

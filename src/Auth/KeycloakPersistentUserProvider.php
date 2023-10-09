@@ -34,14 +34,16 @@ class KeycloakPersistentUserProvider implements UserProvider
     {
         $idToken = IdToken::from($credentials);
 
-        return $this->model::updateOrCreate([
-            'id' => $idToken->sub,
-        ], [
-            'name' => $idToken->name,
-            'email' => $idToken->email,
-            'givenName' => $idToken->given_name,
-            'familyName' => $idToken->family_name,
-        ]);
+        $user = $this->model::firstOrNew(['id' => $idToken->sub]);
+
+        $user->name = $idToken->name;
+        $user->email = $idToken->email;
+        $user->givenName = $idToken->given_name;
+        $user->familyName = $idToken->family_name;
+
+        $user->save();
+
+        return $user;
     }
 
     public function validateCredentials(Authenticatable $user, array $credentials)

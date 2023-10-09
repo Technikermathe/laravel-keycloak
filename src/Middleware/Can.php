@@ -3,6 +3,7 @@
 namespace Technikermathe\Keycloak\Middleware;
 
 use Closure;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
 class Can extends Authenticated
@@ -13,8 +14,9 @@ class Can extends Authenticated
             return $next($request);
         }
 
-        $guards = explode('|', ($guards[0] ?? ''));
-        if (Auth::hasRole($guards)) {
+        $role = Arr::wrap(Arr::first($guards));
+
+        if (Auth::hasRole($role)) {
             return $next($request);
         }
 

@@ -14,7 +14,7 @@ class Can extends Authenticated
             return $next($request);
         }
 
-        $role = Arr::wrap(Arr::first($guards));
+        $role = Arr::first(Arr::wrap($guards));
 
         if (Auth::hasRole($role)) {
             return $next($request);

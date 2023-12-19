@@ -4,9 +4,9 @@ namespace Technikermathe\Keycloak\Controllers;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use RuntimeException;
 use Technikermathe\Keycloak\Facades\Keycloak;
 
 class AuthController extends Controller
@@ -43,14 +43,13 @@ class AuthController extends Controller
         if ($request->has('error')) {
             $errorMessage = $request->string('error')->append($request->string('error_description', ''));
 
-            throw new RuntimeException($errorMessage);
+            abort(Response::HTTP_UNAUTHORIZED, $errorMessage);
         }
 
         // Check given state to mitigate CSRF attack
         if (! $request->has('state') || ! Keycloak::validateState($request->string('state'))) {
             Keycloak::forgetState();
-
-            throw new RuntimeException('Invalid state');
+            abort(419, 'Invalid Session');
         }
 
         // Change code for token
@@ -60,6 +59,6 @@ class AuthController extends Controller
             return redirect()->intended(config('keycloak.redirect_url', '/admin'));
         }
 
-        throw new RuntimeException('Undefined State');
+        return to_route('login');
     }
 }

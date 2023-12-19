@@ -191,6 +191,17 @@ class Keycloak
         try {
             $token->getAccessToken();
         } catch (ExpiredException) {
+            return $this->handleExpiredToken($token);
+        } catch (Throwable) {
+            $this->handleInvalidToken();
+        }
+
+        return $token;
+    }
+
+    private function handleExpiredToken(Token $token): Token
+    {
+        try {
             $token = $this->refreshAccessToken($token);
             $this->saveToken($token);
         } catch (Throwable) {
@@ -198,6 +209,11 @@ class Keycloak
         }
 
         return $token;
+    }
+
+    private function handleInvalidToken(): never
+    {
+        $this->handleThrowable();
     }
 
     private function handleThrowable(): never

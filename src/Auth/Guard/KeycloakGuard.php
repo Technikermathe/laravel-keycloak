@@ -147,11 +147,11 @@ class KeycloakGuard implements Guard
 
         $token = Keycloak::retrieveToken();
 
-        $token = Keycloak::refreshTokenIfNeeded($token);
-
-        if (blank($token)) {
+        if ($token === null) {
             return [];
         }
+
+        $token = Keycloak::refreshTokenIfNeeded($token);
 
         return $token->getAccessToken()->roles;
     }
@@ -167,11 +167,11 @@ class KeycloakGuard implements Guard
 
         $token = Keycloak::retrieveToken();
 
-        $token = Keycloak::refreshTokenIfNeeded($token);
-
-        if (blank($token)) {
+        if ($token === null) {
             return false;
         }
+
+        $token = Keycloak::refreshTokenIfNeeded($token);
 
         return $token->getAccessToken()->hasRole($role);
     }

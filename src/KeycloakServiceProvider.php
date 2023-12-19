@@ -34,7 +34,7 @@ class KeycloakServiceProvider extends PackageServiceProvider
             });
     }
 
-    public function packageBooted()
+    public function packageBooted(): void
     {
         $this->registerBindings();
     }
@@ -43,6 +43,7 @@ class KeycloakServiceProvider extends PackageServiceProvider
     {
         $this->app->bind(UriFactoryInterface::class, HttpFactory::class);
         $this->app->bind(Keycloak::class, function (Application $app) {
+            /** @phpstan-ignore-next-line */
             $baseUrl = $app->get(UriFactoryInterface::class)
                 ->createUri(config('keycloak.url').'/realms/'.config('keycloak.realm'));
 
@@ -59,6 +60,7 @@ class KeycloakServiceProvider extends PackageServiceProvider
         Auth::extend('keycloak', function ($app, $name, array $config) {
             $provider = Auth::createUserProvider($config['provider']);
 
+            /** @phpstan-ignore-next-line */
             return new KeycloakGuard($provider, $app->request);
         });
 

@@ -60,6 +60,10 @@ class Keycloak
 
             $key = $this->http->get((string) $openIdConfiguration->issuer)->json('public_key');
 
+            if (!is_string($key)) {
+                return '';
+            }
+
             return "-----BEGIN PUBLIC KEY-----\n".wordwrap($key, 64, "\n", true)."\n-----END PUBLIC KEY-----";
         });
     }
@@ -208,6 +212,7 @@ class Keycloak
      */
     public function retrieveToken(): ?Token
     {
+        /** @phpstan-ignore-next-line */
         return Session::get(self::SESSION);
     }
 

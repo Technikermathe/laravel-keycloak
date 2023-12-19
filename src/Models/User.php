@@ -4,17 +4,17 @@ namespace Technikermathe\Keycloak\Models;
 
 use BadMethodCallException;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Support\Facades\Auth;
 
 class User implements Authenticatable
 {
-    public function getAuthIdentifierName()
+    public function getAuthIdentifierName(): string
     {
         return 'email';
     }
 
     public function getAuthIdentifier()
     {
+        /** @phpstan-ignore-next-line  */
         return $this->email;
     }
 
@@ -36,19 +36,5 @@ class User implements Authenticatable
     public function getRememberTokenName()
     {
         throw new BadMethodCallException('Not Implemented.');
-    }
-
-    /**
-     * Check user has roles
-     *
-     * @see KeycloakWebGuard::hasRole()
-     *
-     * @param  string|array  $roles
-     * @param  string  $resource
-     * @return bool
-     */
-    public function hasRole($roles, $resource = '')
-    {
-        return Auth::hasRole($roles, $resource);
     }
 }

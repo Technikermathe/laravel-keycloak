@@ -40,16 +40,14 @@ class AuthController extends Controller
     public function callback(Request $request): RedirectResponse
     {
         // Check for errors from Keycloak
-        if (! empty($request->input('error'))) {
-            $error = $request->input('error_description');
-            $error = ($error) ?: $request->input('error');
+        if ($request->has('error')) {
+            $errorMessage = $request->string('error')->append($request->string('error_description', ''));
 
-            throw new RuntimeException($error);
+            throw new RuntimeException($errorMessage);
         }
 
         // Check given state to mitigate CSRF attack
-        $state = $request->input('state');
-        if (empty($state) || ! Keycloak::validateState($state)) {
+        if (!$request->has('state') || ! Keycloak::validateState($request->string('state'))) {
             Keycloak::forgetState();
 
             throw new RuntimeException('Invalid state');

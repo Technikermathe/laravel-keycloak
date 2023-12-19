@@ -47,7 +47,7 @@ class AuthController extends Controller
         }
 
         // Check given state to mitigate CSRF attack
-        if (!$request->has('state') || ! Keycloak::validateState($request->string('state'))) {
+        if (! $request->has('state') || ! Keycloak::validateState($request->string('state'))) {
             Keycloak::forgetState();
 
             throw new RuntimeException('Invalid state');

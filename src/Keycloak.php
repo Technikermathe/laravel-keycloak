@@ -60,7 +60,7 @@ class Keycloak
 
             $key = $this->http->get((string) $openIdConfiguration->issuer)->json('public_key');
 
-            if (!is_string($key)) {
+            if (! is_string($key)) {
                 return '';
             }
 

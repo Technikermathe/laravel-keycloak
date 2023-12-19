@@ -11,8 +11,8 @@ use Spatie\LaravelData\DataCollection;
 class Certs extends Data
 {
     /**
-    * @param DataCollection<array-key, Key> $keys
-    */
+     * @param  DataCollection<array-key, Key>  $keys
+     */
     public function __construct(
         #[DataCollectionOf(Key::class)]
         public DataCollection $keys

@@ -17,7 +17,7 @@ class Can extends Authenticated
         $role = Arr::first(Arr::wrap($guards));
 
         /** @phpstan-ignore-next-line */
-        if (Auth::guard('keycloak')->hasRole($role)) {
+        if (Auth::hasRole($role)) {
             return $next($request);
         }
 

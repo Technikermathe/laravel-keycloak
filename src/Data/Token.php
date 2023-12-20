@@ -9,11 +9,15 @@ use Firebase\JWT\Key;
 use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Data;
 use stdClass;
+use Technikermathe\Keycloak\Exceptions\InvalidAudienceException;
 use Technikermathe\Keycloak\Exceptions\InvalidIssuerException;
 use Technikermathe\Keycloak\Facades\Keycloak;
 
 class Token extends Data
 {
+    private const BEARER_TYPE = 'bearer';
+    private const ACCOUNT_AUDIENCE = 'account';
+
     public function __construct(
         public string $access_token,
         public int $expires_in,
@@ -47,6 +51,15 @@ class Token extends Data
     {
         if ($token->iss !== Keycloak::getIssuer()) {
             throw new InvalidIssuerException();
+        }
+
+        $expectedAudience = match ($token->typ) {
+            static::BEARER_TYPE => static::ACCOUNT_AUDIENCE,
+            default => Keycloak::getAudience(),
+        };
+
+        if ($token->aud !== $expectedAudience) {
+            throw new InvalidAudienceException();
         }
     }
 

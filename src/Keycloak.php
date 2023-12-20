@@ -35,6 +35,11 @@ class Keycloak
         return $this->baseUrl;
     }
 
+    public function getAudience(): string
+    {
+        return config('keycloak.clientId');
+    }
+
     public function getOpenIdConfiguration(): OpenIdConfiguration
     {
         return Cache::rememberForever('openidconfiguration', fn () => OpenIdConfiguration::from(

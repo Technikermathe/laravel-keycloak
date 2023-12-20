@@ -19,6 +19,9 @@ class Token extends Data
 
     private const ACCOUNT_AUDIENCE = 'account';
 
+    /** @var int Leeway for nbf / iat in seconds */
+    public const LEEWAY = 2;
+
     public function __construct(
         public string $access_token,
         public int $expires_in,
@@ -66,7 +69,9 @@ class Token extends Data
 
     private function decodeToken(string $token): stdClass
     {
-        $object = JWT::decode($token, new Key(Keycloak::getPublicKey(), 'RS256'));
+        /** @phpstan-ignore-next-line  */
+        JWT::$leeway = config('keycloak.jwt.leeway', JWT::$leeway);
+        $object = JWT::decode($token, new Key(Keycloak::getPublicKey(), Keycloak::getPublicKeyAlgorithm()));
 
         $this->ensureIntegrity($object);
 

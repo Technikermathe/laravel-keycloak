@@ -15,6 +15,8 @@ use Throwable;
 
 class Keycloak
 {
+    public const DEFAULT_ALGO = 'RS256';
+
     private const ENDPOINT_OPENID_CONFIGURATION = '/.well-known/openid-configuration';
 
     private const SESSION = 'keycloak_session';
@@ -37,7 +39,14 @@ class Keycloak
 
     public function getAudience(): string
     {
+        /** @phpstan-ignore-next-line  */
         return config('keycloak.clientId');
+    }
+
+    public function getPublicKeyAlgorithm(): string
+    {
+        /** @phpstan-ignore-next-line  */
+        return config('keycloak.publicKeyAlgorithm', self::DEFAULT_ALGO);
     }
 
     public function getOpenIdConfiguration(): OpenIdConfiguration

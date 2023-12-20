@@ -15,7 +15,7 @@ use Technikermathe\Keycloak\Facades\Keycloak;
 
 class Token extends Data
 {
-    private const BEARER_TYPE = 'bearer';
+    private const BEARER_TYPE = 'Bearer';
 
     private const ACCOUNT_AUDIENCE = 'account';
 
@@ -55,7 +55,7 @@ class Token extends Data
         }
 
         $expectedAudience = match ($token->typ) {
-            static::BEARER_TYPE => static::ACCOUNT_AUDIENCE,
+            self::BEARER_TYPE => self::ACCOUNT_AUDIENCE,
             default => Keycloak::getAudience(),
         };
 

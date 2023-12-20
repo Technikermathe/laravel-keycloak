@@ -59,7 +59,7 @@ return [
     'clientSecret' => env('KEYCLOAK_CLIENT_SECRET'),
     'model' => 'App\\Models\\User',
     'routeMiddleware' => 'web',
-    'redirect_url' => '/kurse',
+    'redirect_url' => '/',
     'scope' => 'openid roles email profile',
 ];
 

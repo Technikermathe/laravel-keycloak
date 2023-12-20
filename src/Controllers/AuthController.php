@@ -55,7 +55,7 @@ class AuthController extends Controller
         // Change code for token
         $token = Keycloak::getToken();
 
-        if (!Auth::validate($token->toArray())) {
+        if (! Auth::validate($token->toArray())) {
             Keycloak::forgetState();
             Keycloak::forgetToken();
 

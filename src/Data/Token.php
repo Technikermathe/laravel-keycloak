@@ -16,6 +16,7 @@ use Technikermathe\Keycloak\Facades\Keycloak;
 class Token extends Data
 {
     private const BEARER_TYPE = 'bearer';
+
     private const ACCOUNT_AUDIENCE = 'account';
 
     public function __construct(

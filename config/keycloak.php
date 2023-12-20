@@ -12,5 +12,5 @@ return [
     'publicKeyAlgorithm' => \Technikermathe\Keycloak\Keycloak::DEFAULT_ALGO,
     'jwt' => [
         'leeway' => \Technikermathe\Keycloak\Data\Token::LEEWAY,
-    ]
+    ],
 ];

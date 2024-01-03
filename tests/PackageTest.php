@@ -16,4 +16,3 @@ it('registers routes', function () {
     $this->assertTrue($routes->contains('register'));
     $this->assertTrue($routes->contains('callback'));
 });
-

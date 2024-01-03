@@ -57,11 +57,10 @@ return [
     'realm' => env('KEYCLOAK_REALM', 'keycloak'),
     'clientId' => env('KEYCLOAK_CLIENT_ID', 'https://app.example.org/auth/oidc'),
     'clientSecret' => env('KEYCLOAK_CLIENT_SECRET'),
-    'model' => 'App\\Models\\User',
     'routeMiddleware' => 'web',
     'redirect_url' => '/',
     'scope' => 'openid roles email profile',
-    'publicKeyAlgorithm' => \Technikermathe\Keycloak\Data\Token::DEFAULT_ALGO,
+    'publicKeyAlgorithm' => \Technikermathe\Keycloak\Keycloak::DEFAULT_ALGO,
     'jwt' => [
         'leeway' => \Technikermathe\Keycloak\Data\Token::LEEWAY,
     ]
@@ -87,6 +86,9 @@ Feel free to supply your own user provider here.
 
 'providers' => [
     'users' => [
+        // See KeycloakPersistentUserProvider for how to implement your user provider.
+        // This provider just creates or updates users from Keycloak.
+        // See the example user migration to be used here.
         'driver' => 'keycloak-persistent-users',
         'model' => App\Models\User::class,
     ],

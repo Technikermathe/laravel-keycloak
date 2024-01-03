@@ -5,7 +5,6 @@ return [
     'realm' => env('KEYCLOAK_REALM', 'keycloak'),
     'clientId' => env('KEYCLOAK_CLIENT_ID', 'https://app.example.org/auth/oidc'),
     'clientSecret' => env('KEYCLOAK_CLIENT_SECRET'),
-    'model' => 'App\\Models\\User',
     'routeMiddleware' => 'web',
     'redirect_url' => '/',
     'scope' => 'openid roles email profile',

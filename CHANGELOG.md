@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-keycloak` will be documented in this file.
 
+## v0.1.2 - 2024-01-09
+
+### What's changed
+
+- Improve compatibility with Laravel Pulse
+
+**Full Changelog**: https://github.com/Technikermathe/laravel-keycloak/compare/v0.1.1...v0.1.2
+
 ## v0.1.1 - 2024-01-09
 
 **Full Changelog**: https://github.com/Technikermathe/laravel-keycloak/compare/v0.1.0...v0.1.1

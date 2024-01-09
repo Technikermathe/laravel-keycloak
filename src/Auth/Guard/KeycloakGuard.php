@@ -10,13 +10,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Technikermathe\Keycloak\Data\Token;
 use Technikermathe\Keycloak\Facades\Keycloak;
-use Technikermathe\Keycloak\Models\User;
 use Throwable;
 
 class KeycloakGuard implements Guard
 {
     /**
-     * @var null|Authenticatable|User
+     * @var null|Authenticatable
      */
     protected $user;
 
@@ -106,7 +105,7 @@ class KeycloakGuard implements Guard
 
             return $this->authenticate();
         } catch (Throwable $e) {
-            Log::error($e);
+            report($e);
 
             return false;
         }

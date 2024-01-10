@@ -17,6 +17,7 @@ While we do use it in production, we only use it as a complete replacement for a
 ## Features
 
 - Provides an Auth driver for Keycloak in Laravel
+- Automatically creates and updates a User Model to the database with the `keycloak-persistent-users` driver
 - Various Keycloak helpers, see the `src/Keycloak.php`
 
 ## Key differences
@@ -25,6 +26,8 @@ While we do use it in production, we only use it as a complete replacement for a
 - Fixes various security flaws with other OIDC and JWT implementations
 - Battle proven JWT validation based on firebase/jwt
 - Issuer* and Audience Validation
+- ACL is read from the Access Token
+- UserInfo is read from the ID Token
 
 ## Installation
 
@@ -70,11 +73,11 @@ return [
 
 ## Usage
 
-### Add auth driver in `config/auth.php`
+### 1. Add auth driver in `config/auth.php`
 
 The default `keycloak-persistent-users` driver persists and updates user data from the ID Token to the local database.
 
-Feel free to supply your own user provider here.
+If you need a different approach or do not want to store Users in the database at all, feel free to supply your own user provider here.
 
 ```php
 'guards' => [
@@ -95,6 +98,53 @@ Feel free to supply your own user provider here.
 ]
 ```
 
+### 2. Adapt User Model
+
+See the published User migration for a User model that goes well with a standard Keycloak setup.
+
+The most important for the default driver that comes with this package, `User`s do not have a password field, which has some implications below.
+
+In most cases you will only have to remove any `password` references from the User model.
+
+Below is an example in conjunction with filament.
+```php
+<?php
+
+namespace App\Models;
+
+
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
+
+class User extends Authenticatable implements FilamentUser
+{
+    use HasFactory, Notifiable;
+
+    public $incrementing = false;
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return Auth::hasRole('admin');
+    }
+}
+```
+
+### 3. Remove AuthenticateSession Middleware
+
+Ensure that you are not using the `AuthenticateSession` Middleware in either first- or third-party packages as it 
+expects your User Model to have a password attribute.
+
+
+### 4. Use routes in your application
 ```php
 // Routes
 route('login')
@@ -105,6 +155,10 @@ route('logout')
 middleware(['auth']) # Require authentication
 middleware(['can:admin']) # Check for resource role "admin"
 ```
+
+### 5. Enable caching
+
+Ensure you are using a cache. The openidconfiguration endpoints and public keys are cached.
 
 ### Example: Usage with filament panel
 

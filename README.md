@@ -19,6 +19,7 @@ While we do use it in production, we only use it as a complete replacement for a
 - Provides an Auth driver for Keycloak in Laravel
 - Automatically creates and updates a User Model to the database with the `keycloak-persistent-users` driver
 - Various Keycloak helpers, see the `src/Keycloak.php`
+- Tested with keycloak 22.x and 23.x
 
 ## Key differences
 

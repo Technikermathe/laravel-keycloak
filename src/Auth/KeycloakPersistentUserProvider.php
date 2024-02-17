@@ -50,4 +50,9 @@ class KeycloakPersistentUserProvider implements UserProvider
     {
         throw new \BadMethodCallException();
     }
+
+    public function rehashPasswordIfRequired(Authenticatable $user, array $credentials, bool $force = false): void
+    {
+        throw new \BadMethodCallException();
+    }
 }

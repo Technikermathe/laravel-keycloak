@@ -7,11 +7,12 @@ use Psr\Http\Message\UriInterface;
 use Spatie\LaravelData\Casts\Cast;
 use Spatie\LaravelData\Casts\Uncastable;
 use Spatie\LaravelData\Support\DataProperty;
+use Spatie\LaravelData\Support\Creation\CreationContext;
 use Throwable;
 
 class UriCast implements Cast
 {
-    public function cast(DataProperty $property, mixed $value, array $properties, array $context): UriInterface|Uncastable
+    public function cast(DataProperty $property, mixed $value, array $properties, CreationContext $context): UriInterface|Uncastable
     {
         if (! is_string($value)) {
             return Uncastable::create();
